@@ -17,11 +17,21 @@ func _ready() -> void:
 	
 	# Connect to room changes
 	SignalBus.request_change_room.connect(_on_room_changing)
+	
+	print("DebugOverlay: Ready! Press F12 to toggle debug mode.")
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("toggle_debug"):
-		debug_enabled = !debug_enabled
-		_update_debug_display()
+	if event is InputEventKey and event.pressed:
+		if event.keycode == KEY_F12 or event.physical_keycode == KEY_F12:
+			print("DebugOverlay: F12 detected via _input!")
+			debug_enabled = !debug_enabled
+			_update_debug_display()
+			get_viewport().set_input_as_handled()
+		elif event.is_action_pressed("toggle_debug"):
+			print("DebugOverlay: toggle_debug action detected!")
+			debug_enabled = !debug_enabled
+			_update_debug_display()
+			get_viewport().set_input_as_handled()
 
 ## Updates the debug display based on current state
 func _update_debug_display() -> void:

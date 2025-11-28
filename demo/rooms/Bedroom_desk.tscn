@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cxt7luq1ckmdf"]
 
 [ext_resource type="Script" uid="uid://c2b6bvb5ed7lr" path="res://scripts/Room.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://c1f3p5njxlbkg" path="res://assets/bedroom/RoomRight.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://c1f6bb7mwwsm2" path="res://assets/bedroom/RoomLeft.png" id="2"]
 [ext_resource type="Script" uid="uid://dbmqcxdh7yxd8" path="res://scripts/Hotspot.gd" id="3"]
 
 [sub_resource type="RectangleShape2D" id="1"]
