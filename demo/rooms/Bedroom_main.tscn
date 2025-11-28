@@ -5,16 +5,17 @@
 [ext_resource type="Script" uid="uid://dbmqcxdh7yxd8" path="res://scripts/Hotspot.gd" id="3"]
 
 [sub_resource type="RectangleShape2D" id="1"]
-size = Vector2(654, 733)
+size = Vector2(1205, 1114)
 
 [sub_resource type="RectangleShape2D" id="2"]
-size = Vector2(516, 975)
+size = Vector2(822.5, 483)
 
 [node name="Bedroom" type="Node2D"]
 script = ExtResource("1")
 room_id_override = &"bedroom"
 
 [node name="Background" type="Sprite2D" parent="."]
+scale = Vector2(0.84244794, 0.842448)
 texture = ExtResource("2")
 centered = false
 
@@ -26,16 +27,16 @@ target_room_id = &"bookshelf"
 message = "You step closer to the bookshelf."
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BookshelfHotspot"]
-position = Vector2(215, 290)
+position = Vector2(1286.5, -8)
 shape = SubResource("1")
 
 [node name="DeskHotspot" type="Area2D" parent="."]
-position = Vector2(1110, 360)
+position = Vector2(364, 598)
 script = ExtResource("3")
 id = &"desk_hotspot"
 target_room_id = &"desk"
 message = "You move toward the desk by the window."
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeskHotspot"]
-position = Vector2(178, 157.5)
+position = Vector2(-3, 42)
 shape = SubResource("2")

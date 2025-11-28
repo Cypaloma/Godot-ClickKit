@@ -7,6 +7,7 @@
 script = ExtResource("1")
 rooms_directory = "res://rooms"
 starting_room_id = &"menu"
+message_display_duration = 3.0
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -1

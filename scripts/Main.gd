@@ -9,6 +9,7 @@ extends Node2D
 @export var starting_room_id: StringName = &""
 @export var transition_duration: float = 0.5
 @export var background_image: Texture2D = null
+@export var message_display_duration: float = 3.0  ## How long messages stay on screen (0 = forever)
 
 @export_group("Cursors")
 @export_subgroup("Default")
@@ -31,6 +32,7 @@ extends Node2D
 var _current_music: AudioStream = null
 var _active_tween: Tween
 var _rooms: Dictionary = {}  # Auto-populated from rooms_directory
+var _message_timer: Timer = null
 
 func _ready() -> void:
 	# Setup Background
@@ -48,6 +50,13 @@ func _ready() -> void:
 	
 	# Setup UI
 	message_panel.hide()
+	message_panel.modulate = Color(1, 1, 1, 0)  # Start fully transparent
+	
+	# Create message timer
+	_message_timer = Timer.new()
+	_message_timer.one_shot = true
+	_message_timer.timeout.connect(_fade_out_message)
+	add_child(_message_timer)
 	
 	# Connect Signals
 	SignalBus.request_change_room.connect(_change_room)
@@ -171,8 +180,29 @@ func _load_room(room_id: StringName) -> void:
 
 ## Displays a message in the UI overlay
 func _show_message(text: String) -> void:
+	if text.is_empty():
+		message_panel.hide()
+		message_panel.modulate = Color(1, 1, 1, 0)
+		return
+	
 	message_label.text = text
-	message_panel.visible = not text.is_empty()
+	message_panel.show()
+	
+	# Fade in
+	if _active_tween: _active_tween.kill()
+	_active_tween = create_tween()
+	_active_tween.tween_property(message_panel, "modulate", Color(1, 1, 1, 1), 0.3)
+	
+	# Auto-hide after duration (if configured)
+	if message_display_duration > 0:
+		_message_timer.start(message_display_duration)
+
+func _fade_out_message() -> void:
+	if _active_tween: _active_tween.kill()
+	_active_tween = create_tween()
+	_active_tween.tween_property(message_panel, "modulate", Color(1, 1, 1, 0), 0.5)
+	await _active_tween.finished
+	message_panel.hide()
 
 ## Plays a sound effect
 func _play_sfx(stream: AudioStream) -> void:
