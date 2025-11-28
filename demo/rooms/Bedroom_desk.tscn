@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxt7luq1ckmdf"]
+
+[ext_resource type="Script" uid="uid://c2b6bvb5ed7lr" path="res://scripts/Room.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c1f3p5njxlbkg" path="res://assets/bedroom/RoomRight.png" id="2"]
+[ext_resource type="Script" uid="uid://dbmqcxdh7yxd8" path="res://scripts/Hotspot.gd" id="3"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(1524, 515.5)
+
+[node name="BedroomDesk" type="Node2D"]
+script = ExtResource("1")
+room_id_override = &"desk"
+parent_room_id = &"bedroom"
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("2")
+centered = false

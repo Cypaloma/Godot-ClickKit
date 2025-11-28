@@ -1,0 +1,66 @@
+[gd_scene load_steps=2 format=3 uid="uid://template_main_001"]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/DebugOverlay.gd" id="2"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1")
+rooms_directory = "res://rooms"
+starting_room_id = &"menu"
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="BackgroundRect" type="TextureRect" parent="BackgroundLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="RoomContainer" type="Node2D" parent="."]
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="MessagePanel" type="PanelContainer" parent="UILayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 100.0
+grow_horizontal = 2
+
+[node name="MessageLabel" type="Label" parent="UILayer/MessagePanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="TransitionOverlay" type="CanvasModulate" parent="."]
+
+[node name="DebugOverlay" type="CanvasLayer" parent="."]
+layer = 100
+script = ExtResource("2")
+
+[node name="InfoPanel" type="PanelContainer" parent="DebugOverlay"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -320.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 300.0
+grow_horizontal = 0
+
+[node name="InfoLabel" type="Label" parent="DebugOverlay/InfoPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Debug Info"
+autowrap_mode = 3

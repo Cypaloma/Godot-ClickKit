@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://bu2ol1f3urond"]
+
+[ext_resource type="Script" uid="uid://c2b6bvb5ed7lr" path="res://scripts/Room.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://7yt4ghy6nv43" path="res://assets/bedroom/RoomMain.png" id="2"]
+[ext_resource type="Script" uid="uid://dbmqcxdh7yxd8" path="res://scripts/Hotspot.gd" id="3"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(654, 733)
+
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(516, 975)
+
+[node name="Bedroom" type="Node2D"]
+script = ExtResource("1")
+room_id_override = &"bedroom"
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("2")
+centered = false
+
+[node name="BookshelfHotspot" type="Area2D" parent="."]
+position = Vector2(130, 360)
+script = ExtResource("3")
+id = &"bookshelf_hotspot"
+target_room_id = &"bookshelf"
+message = "You step closer to the bookshelf."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BookshelfHotspot"]
+position = Vector2(215, 290)
+shape = SubResource("1")
+
+[node name="DeskHotspot" type="Area2D" parent="."]
+position = Vector2(1110, 360)
+script = ExtResource("3")
+id = &"desk_hotspot"
+target_room_id = &"desk"
+message = "You move toward the desk by the window."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeskHotspot"]
+position = Vector2(178, 157.5)
+shape = SubResource("2")
