@@ -60,10 +60,13 @@ func _ready() -> void:
 	
 	# Load starting room
 	if starting_room_id != &"" and _rooms.has(starting_room_id):
+		print("Main: Loading starting room '%s'" % starting_room_id)
 		_load_room(starting_room_id)
 	else:
 		var available = ", ".join(_rooms.keys())
-		push_error("Main: Starting room '%s' not found! Available rooms: %s" % [starting_room_id, available])
+		var error_msg = "FATAL ERROR: Starting room '%s' not found!\nAvailable rooms: %s" % [starting_room_id, available]
+		push_error("Main: " + error_msg)
+		_show_error(error_msg)
 
 ## Auto-discovers all room scenes in the configured directory
 func _discover_rooms() -> void:
@@ -118,7 +121,9 @@ func _change_room(target_room_id: StringName) -> void:
 
 	if not _rooms.has(target_room_id):
 		var available = ", ".join(_rooms.keys())
-		push_error("Main: Room '%s' not found! Available rooms: %s" % [target_room_id, available])
+		var error_msg = "Room '%s' not found!\nAvailable rooms: %s" % [target_room_id, available]
+		push_error("Main: " + error_msg)
+		_show_error(error_msg)
 		return
 
 	# Transition Out
@@ -135,6 +140,8 @@ func _change_room(target_room_id: StringName) -> void:
 
 ## Internal method to load a room scene and setup state
 func _load_room(room_id: StringName) -> void:
+	print("Main: _load_room called with room_id='%s'" % room_id)
+	
 	# Cleanup old room
 	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 	for child in room_container.get_children():
@@ -146,9 +153,11 @@ func _load_room(room_id: StringName) -> void:
 	var room_scene: PackedScene = _rooms[room_id]
 	var new_room := room_scene.instantiate() as Room
 	
+	print("Main: Adding room '%s' to scene tree" % room_id)
 	room_container.add_child(new_room)
 	GameState.current_room_id = room_id
 	GameState.save_game()
+	print("Main: Successfully loaded room '%s'" % room_id)
 	
 	# Handle Music
 	if new_room.music_stream != _current_music:
@@ -174,6 +183,17 @@ func _play_sfx(stream: AudioStream) -> void:
 ## Updates the cursor shape based on hotspot hover state
 func _on_hotspot_hover(is_hovering: bool) -> void:
 	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if is_hovering else Input.CURSOR_ARROW)
+
+## Displays an error message in a prominent red panel
+func _show_error(error_text: String) -> void:
+	message_label.text = "⚠️ ERROR ⚠️\n" + error_text
+	message_panel.show()
+	# Make it red to indicate error
+	if message_panel.has_theme_stylebox_override("panel"):
+		var stylebox = message_panel.get_theme_stylebox("panel").duplicate()
+		if stylebox is StyleBoxFlat:
+			stylebox.bg_color = Color(0.8, 0.2, 0.2, 0.9)
+		message_panel.add_theme_stylebox_override("panel", stylebox)
 
 ## Smoothly crossfades between music tracks
 func _crossfade_music(new_stream: AudioStream) -> void:
